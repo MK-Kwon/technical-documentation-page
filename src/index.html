@@ -1,0 +1,482 @@
+</code><nav id="navbar">
+  <header>Python</header>
+  <ul>
+    <li><a class="nav-link" href="#Introduction">Introduction</a></li>
+    <li><a class="nav-link" href="#Python_source_code">Python source code</a>
+    </li>
+    <li><a class="nav-link" href="#Imports,_Command-line_arguments,_and_len()">Imports, Command-line arguments, and len()</a>
+    </li>
+    <li><a class="nav-link" href="#User-defined_Functions">User-defined Functions</a></li>
+    <li><a class="nav-link" href="#Indentation">Indentation</a></li>
+    <li><a class="nav-link" href="#Code_Checked_at_Runtime">Code Checked at Runtime</a>
+    </li>
+    <li><a class="nav-link"
+  href="#Variable_Names">Variable Names</a></li>
+    <li><a class="nav-link" href="#Python_Strings">Python Strings</a></li>
+    <li><a class="nav-link" href="#String_Methods">String Methods</a></li>
+    <li><a class="nav-link" href="#String_Slices">String Slices</a></li>
+    <li>
+      <a class="nav-link" href="#i18n_Strings_(Unicode)">i18n Strings (Unicode)</a>
+    </li>
+    <li>
+      <a class="nav-link" href="#Python_Sorting">Python Sorting</a>
+    </li>
+    <li>
+      <a class="nav-link" href="#Tuples">Tuples</a>
+    </li>
+    <li>
+      <a class="nav-link" href="#If_Statement">If Statement</a>
+    </li>
+    </ul>
+</nav>
+<main id="main-doc">
+  <section class="main-section" id="Introduction">
+    <header>Introduction</header>
+    <article>
+      <p>
+        Python is an interpreted, high-level, general-purpose programming language. Created by Guido van Rossum and first released in 1991, Python's design philosophy emphasizes code readability with its notable use of significant whitespace.
+      </p>
+
+      <p>
+        Python is a dynamic, interpreted (bytecode-compiled) language. There are no type declarations of variables, parameters, functions, or methods in source code. This makes the code short and flexible, and you lose the compile-time type checking of the source code. Python tracks the types of all values at runtime and flags code that does not make sense as it runs.
+
+An excellent way to see how Python code works is to run the Python interpreter and type code right into it. If you ever have a question like, "What happens if I add an int to a list?" Just typing it into the Python interpreter is a fast and likely the best way to see what happens. (See below to see what really happens!)
+      </p>
+      <code> 
+  $ python        ## Run the Python interpreter
+Python 2.7.9 (default, Dec 30 2014, 03:41:42) 
+[GCC 4.1.2 20080704 (Red Hat 4.1.2-55)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> a = 6       ## set a variable in this interpreter session
+>>> a           ## entering an expression prints its value
+6
+>>> a + 2
+8
+>>> a = 'hi'    ## 'a' can hold a string just as well
+>>> a
+'hi'
+>>> len(a)      ## call the len() function on a string
+2
+>>> a + len(a)  ## try something that doesn't work
+Traceback (most recent call last):
+  File "", line 1, in 
+TypeError: cannot concatenate 'str' and 'int' objects
+>>> a + str(len(a))  ## probably what you really wanted
+'hi2'
+>>> foo         ## try something else that doesn't work
+Traceback (most recent call last):
+  File "", line 1, in 
+NameError: name 'foo' is not defined
+  >>> ^D          ## type CTRL-d to exit (CTRL-z in Windows/DOS terminal)      </code>
+     <p>
+       As you can see above, it's easy to experiment with variables and operators. Also, the interpreter throws, or "raises" in Python parlance, a runtime error if the code tries to read a variable that has not been assigned a value. Like C++ and Java, Python is case sensitive so "a" and "A" are different variables. The end of a line marks the end of a statement, so unlike C++ and Java, Python does not require a semicolon at the end of each statement. Comments begin with a '#' and extend to the end of the line.
+      </p>
+      <p>
+        What can Python do?
+    <ul>
+        <li>
+          Python can be used on a server to create web applications.
+        </li>
+        <li>Python can be used alongside software to create workflows.</li>
+        <li>
+          Python can connect to database systems.
+        </li>
+      <li>
+         Python can be used to handle big data and perform complex mathematics.
+        </li>
+      <li>
+        Python can be used for rapid prototyping, or for production-ready software development.
+      </li>
+      </ul>  
+        
+    </article>
+  </section>
+  <section class="main-section" id="Python_source_code">
+    <header>Python source code</header>
+    <article>
+      <p>Python source files use the ".py" extension and are called "modules." With a Python module hello.py, the easiest way to run it is with the shell command "python hello.py Alice" which calls the Python interpreter to execute the code in hello.py, passing it the command line argument "Alice". See the official docs page on all the different options you have when running Python from the command-line.
+
+Here's a very simple hello.py program (notice that blocks of code are delimited strictly using indentation rather than curly braces — more on this later!):</p>
+      <code>
+        #!/usr/bin/env python
+
+# import modules used here -- sys is a very standard one
+import sys
+
+# Gather our code in a main() function
+def main():
+    print 'Hello there', sys.argv[1]
+    # Command line args are in sys.argv[1], sys.argv[2] ...
+    # sys.argv[0] is the script name itself and can be ignored
+
+# Standard boilerplate to call the main() function to begin
+# the program.
+if __name__ == '__main__':
+    main()
+      </code>
+      <p>
+        Running this program from the command line looks like:
+      </p>
+      <code>
+        $ python hello.py Guido
+Hello there Guido
+$ ./hello.py Alice  ## without needing 'python' first (Unix)
+Hello there Alice
+      </code>
+      <p>
+        You’ll learn how to:
+      </p>
+
+      <ul>
+        <li>
+          Read and navigate the source code
+        </li>
+        <li>Compile CPython from source code
+        </li>
+        <li>
+          Navigate and comprehend the inner workings of concepts like lists, dictionaries, and generators
+        </li>
+        <li>
+          Run the test suite
+        </li>
+        <li>
+          Modify or upgrade components of the CPython library to contribute them to future versions
+        </li>
+      </ul>
+    </article>
+  </section>
+  <section class="main-section" id="Imports,_Command-line_arguments,_and_len()">
+    <header>Imports, Command-line arguments, and len()</header>
+    <article>
+      <p>
+        The outermost statements in a Python file, or "module", do its one-time setup — those statements run from top to bottom the first time the module is imported somewhere, setting up its variables and functions. A Python module can be run directly — as above "python hello.py Bob" — or it can be imported and used by some other module. When a Python file is run directly, the special variable "__name__" is set to "__main__". Therefore, it's common to have the boilerplate if __name__ ==... shown above to call a main() function when the module is run directly, but not when the module is imported by some other module.
+
+In a standard Python program, the list sys.argv contains the command-line arguments in the standard way with sys.argv[0] being the program itself, sys.argv[1] the first argument, and so on. If you know about argc, or the number of arguments, you can simply request this value from Python with len(sys.argv), just like we did in the interactive interpreter code above when requesting the length of a string. In general, len() can tell you how long a string is, the number of elements in lists and tuples (another array-like data structure), and the number of key-value pairs in a dictionary.
+      </p>
+      </article>
+  </section>
+  <section class="main-section" id="User-defined_Functions">
+    <header>User-defined Functions</header>
+    <article>
+      Functions in Python are defined like this:
+      <code
+        ># Defines a "repeat" function that takes 2 arguments.
+def repeat(s, exclaim):
+    """
+    Returns the string 's' repeated 3 times.
+    If exclaim is true, add exclamation marks.
+    """
+
+    result = s + s + s # can also use "s * 3" which is faster (Why?)
+    if exclaim:
+        result = result + '!!!'
+    return result
+      </code>
+      <p>
+        Notice also how the lines that make up the function or if-statement are grouped by all having the same level of indentation. We also presented 2 different ways to repeat strings, using the + operator which is more user-friendly, but * also works because it's Python's "repeat" operator, meaning that '-' * 10 gives '----------', a neat way to create an onscreen "line." In the code comment, we hinted that * works faster than +, the reason being that * calculates the size of the resulting object once whereas with +, that calculation is made each time + is called. Both + and * are called "overloaded" operators because they mean different things for numbers vs. for strings (and other data types).
+      </p>
+      <p>
+        The def keyword defines the function with its parameters within parentheses and its code indented. The first line of a function can be a documentation string ("docstring") that describes what the function does. The docstring can be a single line, or a multi-line description as in the example above. (Yes, those are "triple quotes," a feature unique to Python!) Variables defined in the function are local to that function, so the "result" in the above function is separate from a "result" variable in another function. The return statement can take an argument, in which case that is the value returned to the caller.
+      </p>
+    </article>
+  </section>
+  <section class="main-section" id="Indentation">
+    <header>Indentation</header>
+    <p>
+      One unusual Python feature is that the whitespace indentation of a piece of code affects its meaning. A logical block of statements such as the ones that make up a function should all have the same indentation, set in from the indentation of their parent function or "if" or whatever. If one of the lines in a group has a different indentation, it is flagged as a syntax error.
+
+Python's use of whitespace feels a little strange at first, but it's logical and I found I got used to it very quickly. Avoid using TABs as they greatly complicate the indentation scheme (not to mention TABs may mean different things on different platforms). Set your editor to insert spaces instead of TABs for Python code.
+    </p>
+     </section>
+  <section class="main-section" id="Code_Checked_at_Runtime">
+    <header>Code Checked at Runtime</header>
+    <article>
+      Python does very little checking at compile time, deferring almost all type, name, etc. checks on each line until that line runs. Suppose the above main() calls repeat() like this:
+      <code>
+        def main():
+    if name == 'Guido':
+        print repeeeet(name) + '!!!'
+    else:
+        print repeat(name)
+      </code> 
+      <p>
+        The if-statement contains an obvious error, where the repeat() function is accidentally typed in as repeeeet(). The funny thing in Python ... this code compiles and runs fine so long as the name at runtime is not 'Guido'. Only when a run actually tries to execute the repeeeet() will it notice that there is no such function and raise an error. This just means that when you first run a Python program, some of the first errors you see will be simple typos like this. This is one area where languages with a more verbose type system, like Java, have an advantage ... they can catch such errors at compile time (but of course you have to maintain all that type information ... it's a tradeoff).
+      </p>
+      </article>
+  </section>
+  <section class="main-section" id="Variable_Names">
+    <header>Variable Names</header>
+    <article>
+      <p>
+        Since Python variables don't have any type spelled out in the source code, it's extra helpful to give meaningful names to your variables to remind yourself of what's going on. So use "name" if it's a single name, and "names" if it's a list of names, and "tuples" if it's a list of tuples. Many basic Python errors result from forgetting what type of value is in each variable, so use your variable names (all you have really) to help keep things straight.
+      </p>
+
+      <p>
+        As you can guess, keywords like 'print' and 'while' cannot be used as variable names — you'll get a syntax error if you do. However, be careful not to use built-ins as variable names. For example, while 'str' and 'list' may seem like good names, you'd be overriding those system variables. Built-ins are not keywords and thus, are susceptible to inadvertent use by new Python developers.
+      </p>
+      </article>
+  </section>
+  <section class="main-section" id="Python_Strings">
+    <header>Python Strings</header>
+    <article>
+      <p>
+        Python has a built-in string class named "str" with many handy features (there is an older module named "string" which you should not use). String literals can be enclosed by either double or single quotes, although single quotes are more commonly used. Backslash escapes work the usual way within both single and double quoted literals -- e.g. \n \' \". A double quoted string literal can contain single quotes without any fuss (e.g. "I didn't do it") and likewise single quoted string can contain double quotes. A string literal can span multiple lines, but there must be a backslash \ at the end of each line to escape the newline. String literals inside triple quotes, """ or ''', can span multiple lines of text.
+      </p>
+      <p>
+        Python strings are "immutable" which means they cannot be changed after they are created (Java strings also use this immutable style). Since strings can't be changed, we construct *new* strings as we go to represent computed values. So for example the expression ('hello' + 'there') takes in the 2 strings 'hello' and 'there' and builds a new string 'hellothere'.
+      </p>
+      <p>
+        Characters in a string can be accessed using the standard [ ] syntax, and like Java and C++, Python uses zero-based indexing, so if s is 'hello' s[1] is 'e'. If the index is out of bounds for the string, Python raises an error. The Python style (unlike Perl) is to halt if it can't tell what to do, rather than just make up a default value. The handy "slice" syntax (below) also works to extract any substring from a string. The len(string) function returns the length of a string. The [ ] syntax and the len() function actually work on any sequence type -- strings, lists, etc.. Python tries to make its operations work consistently across different types. Python newbie gotcha: don't use "len" as a variable name to avoid blocking out the len() function. The '+' operator can concatenate two strings. Notice in the code below that variables are not pre-declared -- just assign to them and go.
+      </p>
+      <code>
+        s = 'hi'
+  print s[1]          ## i
+  print len(s)        ## 2
+  print s + ' there'  ## hi there
+      </code>
+      <p>
+        Unlike Java, the '+' does not automatically convert numbers or other types to string form. The str() function converts values to a string form so they can be combined with other strings.
+      </p>
+      <code>
+        pi = 3.14
+  ##text = 'The value of pi is ' + pi      ## NO, does not work
+  text = 'The value of pi is '  + str(pi)  ## yes
+      </code>
+     <p>
+       For numbers, the standard operators, +, /, * work in the usual way. There is no ++ operator, but +=, -=, etc. work. If you want integer division, it is most correct to use 2 slashes -- e.g. 6 // 5 is 1 (previous to python 3000, a single / does int division with ints anyway, but moving forward // is the preferred way to indicate that you want int division.)
+
+The "print" operator prints out one or more python items followed by a newline (leave a trailing comma at the end of the items to inhibit the newline). A "raw" string literal is prefixed by an 'r' and passes all the chars through without special treatment of backslashes, so r'x\nx' evaluates to the length-4 string 'x\nx'. A 'u' prefix allows you to write a unicode string literal (Python has lots of other unicode support features -- see the docs below).
+      </p>
+      <code>
+        raw = r'this\t\n and that'
+
+  # this\t\n and that
+  print raw
+
+  multi = """It was the best of times.
+  It was the worst of times."""
+
+  # It was the best of times.
+  #   It was the worst of times.
+print multi
+      </code>
+    </article>
+  </section>
+  <section class="main-section" id="String_Methods">
+    <header>String Methods</header>
+    <article>
+      <p>
+        Here are some of the most common string methods. A method is like a function, but it runs "on" an object. If the variable s is a string, then the code s.lower() runs the lower() method on that string object and returns the result (this idea of a method running on an object is one of the basic ideas that make up Object Oriented Programming, OOP). Here are some of the most common string methods:
+    <ul>
+      <li>s.lower(), s.upper() -- returns the lowercase or uppercase version of the string</li>
+      <li>s.strip() -- returns a string with whitespace removed from the start and end</li>
+<li>s.isalpha()/s.isdigit()/s.isspace()... -- tests if all the string chars are in the various character classes</li>
+<li>s.startswith('other'), s.endswith('other') -- tests if the string starts or ends with the given other string</li>
+<li>s.find('other') -- searches for the given other string (not a regular expression) within s, and returns the first index where it begins or -1 if not found</li>
+<li>s.replace('old', 'new') -- returns a string where all occurrences of 'old' have been replaced by 'new'</li>
+<li>s.split('delim') -- returns a list of substrings separated by the given delimiter. The delimiter is not a regular expression, it's just text. 'aaa,bbb,ccc'.split(',') -> ['aaa', 'bbb', 'ccc']. As a convenient special case s.split() (with no arguments) splits on all whitespace chars.</li>
+<li>s.join(list) -- opposite of split(), joins the elements in the given list together using the string as the delimiter. e.g. '---'.join(['aaa', 'bbb', 'ccc']) -> aaa---bbb---ccc</li>
+      <p>
+A google search for "python str" should lead you to the official python.org string methods which lists all the str methods.
+      </p>
+      <p>
+Python does not have a separate character type. Instead an expression like s[8] returns a string-length-1 containing the character. With that string-length-1, the operators ==, <=, ... all work as you would expect, so mostly you don't need to know that Python does not have a separate scalar "char" type.
+      </p>
+   </section>
+  </article>
+     <section class="main-section" id="String_Slices">
+    <header>String Slices</header>
+     <article>
+      <p>
+  The "slice" syntax is a handy way to refer to sub-parts of sequences -- typically strings and lists. The slice s[start:end] is the elements beginning at start and extending up to but not including end. Suppose we have s = "Hello"
+  </p>
+  <img id= "image" src="https://developers.google.com/edu/python/images/hello.png" alt="hello"> 
+   <ul>
+    <li>s[1:4] is 'ell' -- chars starting at index 1 and extending up to but not including index 4</li>
+  <li>s[1:] is 'ello' -- omitting either index defaults to the start or end of the string</li>
+<li>s[:] is 'Hello' -- omitting both always gives us a copy of the whole thing (this is the pythonic way to copy a sequence like a string or list)</li>
+  <li>s[1:100] is 'ello' -- an index that is too big is truncated down to the string length</li> 
+  </section>
+  </article>
+  <section class="main-section" id="String_Methods">
+    <header>String Methods</header>
+    <article>
+      Use the if statement to execute a statement if a logical condition is
+      true. Use the optional else clause to execute a statement if the condition
+      is false. An if statement looks as follows:
+
+      <code>if (condition) { statement_1; } else { statement_2; }</code>
+      condition can be any expression that evaluates to true or false. See
+      Boolean for an explanation of what evaluates to true and false. If
+      condition evaluates to true, statement_1 is executed; otherwise,
+      statement_2 is executed. statement_1 and statement_2 can be any statement,
+      including further nested if statements.
+      <p>
+        You may also compound the statements using else if to have multiple
+        conditions tested in sequence, as follows:
+      </p>
+      <code
+        >if (condition_1) { statement_1; } else if (condition_2) { statement_2;
+        } else if (condition_n) { statement_n; } else { statement_last; }
+      </code>
+      In the case of multiple conditions only the first logical condition which
+      evaluates to true will be executed. To execute multiple statements, group
+      them within a block statement ({ ... }) . In general, it's good practice
+      to always use block statements, especially when nesting if statements:
+
+      <code
+        >if (condition) { statement_1_runs_if_condition_is_true;
+        statement_2_runs_if_condition_is_true; } else {
+        statement_3_runs_if_condition_is_false;
+        statement_4_runs_if_condition_is_false; }</code
+      >
+      It is advisable to not use simple assignments in a conditional expression,
+      because the assignment can be confused with equality when glancing over
+      the code. For example, do not use the following code:
+      <code>if (x = y) { /* statements here */ }</code> If you need to use an
+      assignment in a conditional expression, a common practice is to put
+      additional parentheses around the assignment. For example:
+
+      <code>if ((x = y)) { /* statements here */ }</code>
+    </article>
+  </section>
+  <section class="main-section" id="String_Slices">
+    <header>String Slices</header>
+    <article>
+      A while statement executes its statements as long as a specified condition
+      evaluates to true. A while statement looks as follows:
+
+      <code>while (condition) statement</code> If the condition becomes false,
+      statement within the loop stops executing and control passes to the
+      statement following the loop.
+
+      <p>
+        The condition test occurs before statement in the loop is executed. If
+        the condition returns true, statement is executed and the condition is
+        tested again. If the condition returns false, execution stops and
+        control is passed to the statement following while.
+      </p>
+
+      <p>
+        To execute multiple statements, use a block statement ({ ... }) to group
+        those statements.
+      </p>
+
+      Example:
+
+      <p>The following while loop iterates as long as n is less than three:</p>
+
+      <code>var n = 0; var x = 0; while (n &lt; 3) { n++; x += n; }</code>
+      <p>
+        With each iteration, the loop increments n and adds that value to x.
+        Therefore, x and n take on the following values:
+      </p>
+
+      <ul>
+        <li>After the first pass: n = 1 and x = 1</li>
+        <li>After the second pass: n = 2 and x = 3</li>
+        <li>After the third pass: n = 3 and x = 6</li>
+      </ul>
+      <p>
+        After completing the third pass, the condition n &lt; 3 is no longer
+        true, so the loop terminates.
+      </p>
+    </article>
+  </section>
+  <section class="main-section" id="i18n_Strings_(Unicode)">
+    <header>i18n Strings (Unicode)</header>
+    <article>
+      Regular Python strings are *not* unicode, they are just plain bytes. To create a unicode string, use the 'u' prefix on the string literal:
+      <code>
+        > ustring = u'A unicode \u018e string \xf1'
+> ustring
+u'A unicode \u018e string \xf1'
+      </code>
+      <p>
+        A unicode string is a different type of object from regular "str" string, but the unicode string is compatible (they share the common superclass "basestring"), and the various libraries such as regular expressions work correctly if passed a unicode string instead of a regular string.
+      </p>
+      <p>
+        To convert a unicode string to bytes with an encoding such as 'utf-8', call the ustring.encode('utf-8') method on the unicode string. Going the other direction, the unicode(s, encoding) function converts encoded plain bytes to a unicode string:
+      </p>
+      <code>
+        ## (ustring from above contains a unicode string)
+> s = ustring.encode('utf-8')
+> s
+'A unicode \xc6\x8e string \xc3\xb1'  ## bytes of utf-8 encoding
+> t = unicode(s, 'utf-8')             ## Convert bytes back to a unicode string
+> t == ustring                      ## It's the same as the original, yay!
+True
+      </code>
+      <p>
+        The built-in print does not work fully with unicode strings. You can encode() first to print in utf-8 or whatever. In the file-reading section, there's an example that shows how to open a text file with some encoding and read out unicode strings. Note that unicode handling is one area where Python 3000 is significantly cleaned up vs. Python 2.x behavior described here.
+      </p>
+    </article>
+  </section>
+  
+  <section class="Python-Sorting" id="Python_Sorting">
+    <header>Python Sorting</header>
+    <article>
+      The easiest way to sort is with the sorted(list) function, which takes a list and returns a new list with those elements in sorted order. The original list is not changed.
+      <code>
+        a = [5, 1, 4, 3]
+  print sorted(a)  ## [1, 3, 4, 5]
+  print a  ## [5, 1, 4, 3]
+      </code>
+      <p>
+        t's most common to pass a list into the sorted() function, but in fact it can take as input any sort of iterable collection. The older list.sort() method is an alternative detailed below. The sorted() function seems easier to use compared to sort(), so I recommend using sorted().
+      </p>
+      <p>
+        The sorted() function can be customized through optional arguments. The sorted() optional argument reverse=True, e.g. sorted(list, reverse=True), makes it sort backwards.
+      </p>
+      <code>
+        strs = ['aa', 'BB', 'zz', 'CC']
+  print sorted(strs)  ## ['BB', 'CC', 'aa', 'zz'] (case sensitive)
+  print sorted(strs, reverse=True)   ## ['zz', 'aa', 'CC', 'BB']
+      </code>
+    </article>
+  </section>
+  <section class="Tuples" id="Tuples">
+    <header>Tuples</header>
+    <article>
+      A tuple is a fixed size grouping of elements, such as an (x, y) co-ordinate. Tuples are like lists, except they are immutable and do not change size (tuples are not strictly immutable since one of the contained elements could be mutable). Tuples play a sort of "struct" role in Python -- a convenient way to pass around a little logical, fixed size bundle of values. A function that needs to return multiple values can just return a tuple of the values. For example, if I wanted to have a list of 3-d coordinates, the natural python representation would be a list of tuples, where each tuple is size 3 holding one (x, y, z) group.
+      <p>
+        To create a tuple, just list the values within parenthesis separated by commas. The "empty" tuple is just an empty pair of parenthesis. Accessing the elements in a tuple is just like a list -- len(), [ ], for, in, etc. all work the same.
+      </p>
+      <code>
+        tuple = (1, 2, 'hi')
+  print len(tuple)  ## 3
+  print tuple[2]    ## hi
+  tuple[2] = 'bye'  ## NO, tuples cannot be changed
+        tuple = (1, 2, 'bye')  ## this works</code>
+    </article>
+  </section>
+  <section class="main-section" id="If_Statement">
+    <header>If Statement</header>
+    <article>
+      Python does not use { } to enclose blocks of code for if/loops/function etc.. Instead, Python uses the colon (:) and indentation/whitespace to group statements. The boolean test for an if does not need to be in parenthesis (big difference from C++/Java), and it can have *elif* and *else* clauses (mnemonic: the word "elif" is the same length as the word "else").
+      <p>
+        Any value can be used as an if-test. The "zero" values all count as false: None, 0, empty string, empty list, empty dictionary. There is also a Boolean type with two values: True and False (converted to an int, these are 1 and 0). Python has the usual comparison operations: ==, !=, <, <=, >, >=. Unlike Java and C, == is overloaded to work correctly with strings. The boolean operators are the spelled out words *and*, *or*, *not* (Python does not use the C-style && || !). Here's what the code might look like for a policeman pulling over a speeder -- notice how each block of then/else statements starts with a : and the statements are grouped by their indentation:
+      <code>
+        if speed >= 80:
+    print 'License and registration please'
+    if mood == 'terrible' or speed >= 100:
+      print 'You have the right to remain silent.'
+    elif mood == 'bad' or speed >= 90:
+      print "I'm going to have to write you a ticket."
+      write_ticket()
+    else:
+      print "Let's try to keep it under 80 ok?"
+        </code>
+        <p>
+          I find that omitting the ":" is my most common syntax mistake when typing in the above sort of code, probably since that's an additional thing to type vs. my C++/Java habits. Also, don't put the boolean test in parens -- that's a C/Java habit. If the code is short, you can put the code on the same line after ":", like this (this applies to functions, loops, etc. also), although some people feel it's more readable to space things out on separate lines.
+      </p>
+      <code>
+        if speed >= 80: print 'You are so busted'
+  else: print 'Have a nice day'
+      </code>
+     </article>
+  </section>
+</main>
+<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+
+
